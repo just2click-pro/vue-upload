@@ -53,7 +53,7 @@ export default {
       uploadedFiles: [],
       uploadError: null,
       currenctStatus: null,
-      uploadFileName: 'text'
+      uploadFileName: 'txtfile'
     }
   },
   computed: {
@@ -101,8 +101,8 @@ export default {
       // Append the files to FormData
       Array
         .from(Array(fileList.length).keys())
-        .map(file => {
-          formData.append(fieldName, fileList[file].name)
+        .map(index => {
+          formData.append(fieldName, fileList[index], fileList[index].name)
         })
 
       // Save it

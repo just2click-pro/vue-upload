@@ -39,10 +39,9 @@ app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     </ul>
   `);
 }));
-app.post('/upload', upload.single('file'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/upload', upload.single('txtfile'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const col = yield utils_1.loadCollection(COLLECTION_NAME, db);
-        console.log('col? ', col);
         const data = col.insert(req.file);
         db.saveDatabase();
         res.send({ id: data.$loki, filename: data.filename, originalName: data.originalName });
