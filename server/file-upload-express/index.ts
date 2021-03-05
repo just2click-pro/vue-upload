@@ -33,10 +33,9 @@ app.get('/', async (req, res) => {
   `)
 })
 
-app.post('/upload', upload.single('file'), async (req, res) => {
+app.post('/upload', upload.single('txtfile'), async (req, res) => {
   try {
     const col = await loadCollection(COLLECTION_NAME, db)
-    console.log('col? ', col)
     const data = col.insert(req.file)
 
     db.saveDatabase()
