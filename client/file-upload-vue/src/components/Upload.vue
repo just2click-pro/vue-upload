@@ -110,7 +110,11 @@ export default {
         })
     },
     filesChange (fieldName, fileList) {
-      // hnadle file changes
+      const functionName = 'Upload::filesChange: ' ;
+      console.log(functionName  + ' fieldName = ', fieldName);
+      console.log(functionName  + ' fileList = ', fileList);
+      
+      // handle file changes
       if (!fileList.length) return
 
       // handle file changes

@@ -35,11 +35,11 @@ const clearFolder = function (folderPath) {
 }
 
 // Setup
-const DB_NAME = 'fileDb.json'
+const DB_FILE_NAME = 'fileDb.json'
 const COLLECTION_NAME = 'text-files'
 const UPLOAD_PATH = 'upload'
 const upload = multer({ dest: `${UPLOAD_PATH}`, fileFilter: textFileFilter })
-const db = new Loki(`${UPLOAD_PATH}/${DB_NAME}`, { persistenceMethod: 'fs' })
+const db = new Loki(`${UPLOAD_PATH}/${DB_FILE_NAME}`, { persistenceMethod: 'fs' })
 
 // optional: clean all data before start
 // clearFolder(UPLOAD_PATH);
@@ -64,10 +64,10 @@ app.get('/', async (req, res) => {
 app.post('/upload', upload.single('txtfile'), async (req, res) => {
   const path = '/upload'
   console.log(`${fileName} ${path} called !`)
+  console.log(fileName + ' req.file = ', req.file);
   try {
     const collection = await loadCollection(COLLECTION_NAME, db)
     const data = collection.insert(req.file)
-
     console.log(fileName + path + ' data = ', JSON.stringify(data));
 
     db.saveDatabase()

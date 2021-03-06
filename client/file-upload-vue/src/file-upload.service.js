@@ -5,7 +5,10 @@ const BASE_URL = 'http://localhost:3000';
 function upload(formData) {
     const functionName = 'file-upload.service::upload: ';
     const url = `${BASE_URL}/upload`;
+    console.log(functionName + ' formData = ', JSON.stringify(formData));
+    
     return axios.post(url, formData)
+
         // get data
         .then((file) => {
             console.log(functionName + ' file = ', file);
