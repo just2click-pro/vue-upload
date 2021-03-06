@@ -109,8 +109,8 @@ Bin/
 **/[Bb]in/
 **/[Oo]bj/
 **/[Ll]og/
-/**/package-lock.json
-/**/node_modules/
+**/package-lock.json
+**/file-upload-express/upload/
 
 # Visual Studio 2015/2017 cache/options directory
 **/.vs/

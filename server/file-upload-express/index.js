@@ -4,7 +4,9 @@ const cors = require('cors')
 const fs = require('fs')
 const path = require('path')
 const Loki = require('lokijs')
-const del  = require('del')
+const del = require('del')
+
+const fileName = 'index.js: ';
 
 // import { textFileFilter, loadCollection, clearFolder } from './utils'
 
@@ -60,21 +62,26 @@ app.get('/', async (req, res) => {
 })
 
 app.post('/upload', upload.single('txtfile'), async (req, res) => {
+  const path = '/upload'
+  console.log(`${fileName} ${path} called !`)
   try {
-    const col = await loadCollection(COLLECTION_NAME, db)
-    const data = col.insert(req.file)
+    const collection = await loadCollection(COLLECTION_NAME, db)
+    const data = collection.insert(req.file)
+
+    console.log(fileName + path + ' data = ', JSON.stringify(data));
 
     db.saveDatabase()
     res.status(200).send({ id: data.$loki, filename: data.filename, originalName: data.originalName })
   } catch (err) {
+    console.log(fileName + path + ' err = ', err);
     res.status(400).send(err)
   }
 })
 
 app.get('/files', async (req, res) => {
   try {
-    const col = await loadCollection(COLLECTION_NAME, db)
-    res.send(col.data)
+    const collection = await loadCollection(COLLECTION_NAME, db)
+    res.send(collection.data)
   } catch (err) {
     res.sendStatus(400)
   }
@@ -82,8 +89,8 @@ app.get('/files', async (req, res) => {
 
 app.get('/files/:id', async (req, res) => {
   try {
-    const col = await loadCollection(COLLECTION_NAME, db)
-    const result = col.get(parseInt(req.params.id));
+    const collection = await loadCollection(COLLECTION_NAME, db)
+    const result = collection.get(parseInt(req.params.id));
 
     if (!result) {
       res.sendStatus(404)

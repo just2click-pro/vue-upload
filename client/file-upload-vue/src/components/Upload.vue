@@ -27,7 +27,7 @@
         <a href="javasctipt:void(0)" @click="reset()">Upload again</a>
       </p>
       <ul class="list-unstyled">
-        {{ uploadedFiles[0].name }}
+        {{ this.uploadedFiles[0].filename }}
       </ul>
     </div>
     <!-- Failed -->
@@ -77,16 +77,34 @@ export default {
       this.uploadedFiles = []
       this.uploadError = null
     },
+    replaceErrors(key, value) {
+      if (value instanceof Error) {
+        var error = {};
+
+        Object.getOwnPropertyNames(value).forEach(function (key) {
+            error[key] = value[key];
+        });
+
+        return error;
+      }
+
+      return value;
+    },
     save (formData) {
+      const functionName = 'Upload::save: ' ;
+
       // upload data to the server
       this.currenctStatus = STATUS_SAVING
 
       upload(formData)
         .then(file => {
-          this.uploadedFiles = [this.uploadedFiles, ...file]
+          console.log(functionName  + ' file = ', file);
+          this.uploadedFiles.push(file);
+          console.log(functionName  + ' this.uploadedFiles = ', this.uploadedFiles);
           this.currenctStatus = STATUS_SUCCESS
         })
         .catch(error => {
+          console.log(functionName  + ' JSON.stringify(error, this.replaceErrors) = ', JSON.stringify(error, this.replaceErrors));
           this.uploadError = error.response;
           this.currenctStatus = STATUS_FAILED
         })
